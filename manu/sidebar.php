@@ -6,15 +6,15 @@
                   			         
                   														
 							<li>
-								<a class="" href="category_list.php">
+								<a class="" href="allproduct_list.php">
 									<i class="icon_genius"></i>
-									<span>Category</span>
+									<span>All products</span>
 								</a>
 							</li>
 							<li>
-								<a class="" href="product_list.php">
+								<a class="" href="myproduct_list.php">
 									<i class="icon_genius"></i>
-									<span>Products</span>
+									<span>My Products</span>
 								</a>
 							</li>
 							<li>

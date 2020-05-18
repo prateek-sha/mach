@@ -1,5 +1,62 @@
 <?php
+ob_start();
+  include('sessioncheck.php');
   require('header.php');
+  include('../admin/configure_category.php');
+  include('../admin/configure_products.php');
+  include('../admin/configure_finalproduct.php');
+  $obj_prod=new FinalProducts();
+  $product =new Products();
+  $cat = new Category();
+if(isset($_POST["add_to_cart"]))
+{
+  if(isset($_SESSION["shopping_cart"]))
+  {
+    $item_array_id = array_column($_SESSION["shopping_cart"], "item_id");
+    if(!in_array($_GET["id"], $item_array_id))
+    {
+      $count = count($_SESSION["shopping_cart"]);
+      $item_array = array(
+        'item_id'     =>  $_GET["id"],
+        'item_name'     =>  $_POST["hidden_name"],
+        'item_price'    =>  $_POST["hidden_price"],
+        'item_quantity'   =>  $_POST["quantity"]
+      );
+      $_SESSION["shopping_cart"][$count] = $item_array;
+    }
+    else
+    {
+      echo '<script>alert("Item Already Added")</script>';
+    }
+  }
+  else
+  {
+    $item_array = array(
+      'item_id'     =>  $_GET["id"],
+      'item_name'     =>  $_POST["hidden_name"],
+      'item_price'    =>  $_POST["hidden_price"],
+      'item_quantity'   =>  $_POST["quantity"]
+    );
+    $_SESSION["shopping_cart"][0] = $item_array;
+  }
+}
+
+if(isset($_GET["action"]))
+{
+  if($_GET["action"] == "delete")
+  {
+    foreach($_SESSION["shopping_cart"] as $keys => $values)
+    {
+      if($values["item_id"] == $_GET["id"])
+      {
+        unset($_SESSION["shopping_cart"][$keys]);
+        echo '<script>alert("Item Removed")</script>';
+        echo '<script>window.location="cart.php"</script>';
+      }
+    }
+  }
+}
+ob_flush();
 ?>
 
 
@@ -17,7 +74,7 @@
     <section class="ftco-section ftco-cart">
         <div class="container">
             <div class="row">
-                <div class="col-md-12 ftco-animate">
+                <div class="col-md-12">
                     <div class="cart-list">
                         <table class="table">
                             <thead class="thead-primary">
@@ -31,90 +88,74 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            <form method="post" action="cart.php?action=add&id<?php ?>">
+						    	<?php
+                  $all = 0;
+					if(!empty($_SESSION["shopping_cart"]))
+					{
+						$total = 0;
+						$all = 0;
+						foreach($_SESSION["shopping_cart"] as $keys => $values)
+						{
+							$all += ($values["item_quantity"] * $values["item_price"] ); 
+                            $obj_prod->id = $values["item_id"];
+                            $row = $obj_prod->getRecordById1();
+                                    if($row==false)
+                                    {
+                                        echo  "error fecting the product";
+                                        header('location: allproduct_list.php');
+                                    }
+
+
+                                        $im="../admin/upload1/".$row[0]['img']; 
+
+
+					?>
                                 <tr class="text-center">
-                                    <td id="removethis" class="product-remove"><a><span id="delete" class="ion-ios-close"></span></a></td>
+                                    <td id="removethis" class="product-remove"><a  href="cart.php?action=delete&id=<?php echo $values["item_id"]; ?>"><span id="delete" class="ion-ios-close"></span></a></td>
 
                                     <td class="image-prod">
-                                        <div class="img" style="background-image:url(images/pic3.jpg);"></div>
+                                        <img class="img" src="<?php echo $im; ?>" >
                                     </td>
 
                                     <td class="product-name">
-                                        <h3>Product_Name</h3>
-                                        <p>Summery about the product</p>
+                                        <h3><?php echo $row[0]['name'] ?></h3>
                                         <p><strong>Details Selected</strong></p>
-                                        <p>Thread - 1.5</p>
-                                        <p>Diameter - 5mm</p>
-                                        <p>Any parameter - it's value</p>
+                                        <?php
+                                        $product_para = $row[0]['product_para'];
+                                        $split = str_split($product_para, 2);
+                                        $count = count($split);
+    
+                                        for($j = 0 ; $j < $count ; $j++){
+                                            $i = 0;
+                                            $catname = $cat->getCategory($split[$j][$i]);
+                                            $productname = $product->getProducts1($split[$j][$i + 1]);
+
+                                        ?>
+                                        <p> <strong><?php echo $catname[0]['name'] ?></strong> - <?php echo $productname[0]['name']; ?></p>
+                                        <?php }   ?>
+                                        <?php $cad =  "../admin/upload/".$row[0]['cadfile'] ?>
                                         <button class=" btn btn-success" style="width: 200px;">
                                          <span style="color: #fff; ">
-                                            Download CAD File
+                                          <a href=" <?php echo $cad ?>">  Download CAD File </a>
                                          </span> 
                                         </button>
                                     </td>
 
-                                    <td class="price ">$4.90</td>
+                                    <td class="price "><?php echo $row[0]['price'] ?></td>
 
                                     <td class="quantity ">
                                         <div class="input-group mb-3 ">
-                                            <input type="text " name="quantity " class="quantity form-control input-number " value="1 " min="1 " max="100 ">
+                                            <input type="text " readonly name="quantity " class="quantity form-control input-number " value="<?php echo $values["item_quantity"] ?> " min="1 " max="100 ">
                                         </div>
                                     </td>
 
-                                    <td class="total ">$4.90</td>
+                                    <td class="total "><?php echo number_format($values["item_quantity"] * $values["item_price"], 2);?></td>
                                 </tr>
-
-                                <!-- END TR-->
-
-                                <tr class="text-center ">
-                                    <td class="product-remove "><a><span id="delete " class="ion-ios-close "></span></a></td>
-
-                                    <td class="image-prod ">
-                                        <div class="img " style="background-image:url(images/pic2.jpg); "></div>
-                                    </td>
-
-                                    <td class="product-name ">
-                                        <h3>Product_Name</h3>
-                                        <p>Summery about the product</p>
-                                        <p><strong>Details Selected</strong></p>
-                                        <p>Thread - 1.5</p>
-                                        <p>Diameter - 5mm</p>
-                                        <p>Any parameter - it's value</p>
-                                    </td>
-
-                                    <td class="price ">$4.90</td>
-
-                                    <td class="quantity ">
-                                        <div class="input-group mb-3 ">
-                                            <input type="text " name="quantity " class="quantity form-control input-number " value="1 " min="1 " max="100 ">
-                                        </div>
-                                    </td>
-
-                                    <td class="total ">$4.90</td>
-                                </tr>
-                                <!-- END TR-->
-                                <!-- <tr class="text-center ">
-                                    <td class="product-remove "><a href="# "><span class="ion-ios-close "></span></a></td>
-
-                                    <td class="image-prod ">
-                                        <div class="img " style="background-image:url(images/product-4.jpg); "></div>
-                                    </td>
-
-                                    <td class="product-name ">
-                                        <h3>Young Woman Wearing Dress</h3>
-                                        <p>Far far away, behind the word mountains, far from the countries</p>
-                                    </td>
-
-                                    <td class="price ">$15.70</td>
-
-                                    <td class="quantity ">
-                                        <div class="input-group mb-3 ">
-                                            <input type="text " name="quantity " class="quantity form-control input-number " value="1 " min="1 " max="100 ">
-                                        </div>
-                                    </td>
-
-                                    <td class="total ">$15.70</td>
-                                </tr> -->
-                                <!-- END TR-->
+                                <?php
+						  }
+					}
+					?>
                             </tbody>
                         </table>
                     </div>
@@ -126,35 +167,30 @@
                         <h3>Cart Totals</h3>
                         <p class="d-flex ">
                             <span>Subtotal</span>
-                            <span>$20.60</span>
+                            <span><?php echo $all; ?></span>
                         </p>
                         <p class="d-flex ">
                             <span>Delivery</span>
-                            <span>$0.00</span>
-                        </p>
-                        <p class="d-flex ">
-                            <span>Discount</span>
-                            <span>$3.00</span>
+                            <span>Free</span>
                         </p>
                         <hr>
                         <p class="d-flex total-price ">
                             <span>Total</span>
-                            <span>$17.60</span>
+                            <span><?php echo $all; ?></span>
                         </p>
                     </div>
-                    <p class="text-center "><a href="checkout.html " class="btn btn-primary py-3 px-4 ">Proceed to Checkout</a></p>
+                    <p class="text-center "><a href="checkout.php " class="btn btn-primary py-3 px-4 ">Proceed to Checkout</a></p>
                 </div>
             </div>
         </div>
+        </form>
     </section>
 <?php
   require('footer.php');
 ?>
 
 
-    <!-- loader -->
-    <div id="ftco-loader " class="show fullscreen "><svg class="circular " width="48px " height="48px "><circle class="path-bg " cx="24 " cy="24 " r="22 " fill="none " stroke-width="4 " stroke="#eeeeee "/><circle class="path " cx="24 " cy="24 " r="22
-                                            " fill="none " stroke-width="4 " stroke-miterlimit="10 " stroke="#F96D00 "/></svg></div>
+   
 
     <script>
         // Get the modal

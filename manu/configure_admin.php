@@ -9,16 +9,17 @@
 *
 */
    
-   class Admin {
+   class ManuAdmin {
       /* Member variables */
       var $id;
 	  var $username; 	  
 	  var $password;
+	  var $email;
 	  
 	function Admin()
 	{
 
-		$this->con=mysqli_connect("localhost","root","","ecommerce1");
+		$this->con=mysqli_connect("localhost","root","","mechanicalbazaar");
 	}	
 	function f($val)
 	{
@@ -46,7 +47,7 @@
 
 	function loginCheck()
 	{
-		$query = "SELECT * FROM admin where username='".$this->username."' and password='".$this->password."'";
+		$query = "SELECT * FROM manufacture where email='".$this->email."' and password='".$this->password."'";
 		
 		$list = $this->query_list($query);				
 		if(count($list) == 0)
@@ -63,7 +64,7 @@
 	
 	function getRecordById()
 	{
-		$query = "SELECT * FROM admin where username='".$this->username."'";
+		$query = "SELECT * FROM manufacture where username='".$this->username."'";
 		
 		$list = $this->query_list($query);				
 		if(count($list) == 0)
@@ -84,7 +85,7 @@
 		  
 			$start = $start * 10;		  
 		  
-		  $query = "SELECT * FROM admin where username like '%".$this->username."%'  ";
+		  $query = "SELECT * FROM manufacture where username like '%".$this->username."%'  ";
 
 			$list = $this->query_list($query);				
 			if(count($list) == 0)
@@ -101,7 +102,7 @@
 	  
 	  function countData()
 	  {
-		  $query = "SELECT count(id) count FROM admin where  username like '%".$this->username."%' ";
+		  $query = "SELECT count(id) count FROM manufacture where  username like '%".$this->username."%' ";
 
 			$list = $this->query_list($query);				
 			if(count($list) == 0)
@@ -117,7 +118,7 @@
 	  }
 	  function addRecord()
 	  {
-		  $sql="INSERT INTO admin (username,password)
+		  $sql="INSERT INTO manufacture (username,password)
 		VALUES
 		('".$this->f($this->username)."',
 		'$this->password'
@@ -130,7 +131,7 @@
 	  
 	  function updateRecord()
 	  {
-		  $sql="update admin set 
+		  $sql="update manufacture set 
 		username ='".$this->f($this->name)."',
 		password ='$this->password',
 		where 
@@ -143,7 +144,7 @@
 	
 	function updatePassword()
 	  {
-		  $sql="update admin set 		
+		  $sql="update manufacture set 		
 		password ='$this->password'
 		where 
 		username = '$this->username' ";
@@ -155,7 +156,7 @@
 	  
 	  function deleteRecord()
 	  {
-		  $result = mysqli_query($this->con,"update admin set status=0 where id='".$this->id."'");
+		  $result = mysqli_query($this->con,"update manufacture set status=0 where id='".$this->id."'");
 		  if($result)
 			return true;
 	  }

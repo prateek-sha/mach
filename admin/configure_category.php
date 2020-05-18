@@ -17,7 +17,8 @@
 	  var $addeddate;	  
 	  var $status;	 
 	  var $con;
-	  var $name;	  
+	  var $name;
+	  var $mainproductid;	  
 	  
 	function Category()
 	{
@@ -148,7 +149,7 @@
 	  {
 		  $where = "";
 		  		  
-		  $query = "SELECT * from category where status='1'";
+		  $query = "SELECT * from category where active_status='1'";
 
 		  //echo $query;
 		  
@@ -206,9 +207,9 @@
 	  }
 	  function addRecord()
 	  {
-		  $sql="INSERT INTO category(name, active_status) 
+		  $sql="INSERT INTO category(name, mainproductid , active_status) 
 		  VALUES 
-		  ('".$this->f($this->name)."','1')";
+		  ('".$this->f($this->name)."','$this->mainproductid' ,'1')";
 
 		$result = mysqli_query($this->con,$sql);
 		if($result)
@@ -218,7 +219,7 @@
 	  
 	  function updateRecord()
 	  {
-		  $sql="update category set name='$this->name',addeddate='$this->addeddate' where id='$this->id'";
+		  $sql="update category set name='$this->name',mainproductid='$this->mainproductid' ,addeddate='$this->addeddate' where id='$this->id'";
 
 		$result = mysqli_query($this->con,$sql);
 		if($result)

@@ -3,12 +3,17 @@ date_default_timezone_set("Asia/Kolkata");
 include 'sessioncheck.php';
 include 'header.php';
 include ('configure_category.php');
+include ('configure_maincategory.php');
 include ('configure_products.php');
 $pro=new Products();
 $prolist=$pro->getData();
 $pro->closeconnection();	
 
-$name=$addeddate=$status=$attachment="";
+
+$maincat = new MainCategory();
+$maincatlist = $maincat->getData();
+
+$name=$addeddate=$status=$attachment=$maincategoryid="";
 
 $id=0;
 
@@ -18,6 +23,7 @@ $id=$_POST['id'];
 $karya_object = new Category();
 //Adding Data into Object
 $karya_object->id=$id;
+$karya_object->mainproductid=$_POST['mainproductid'];
 $karya_object->name = $_POST['name'];
 $karya_object->addeddate =  date("Y-m-d H:i:s");
 	
@@ -75,6 +81,8 @@ else
 		}
 				
 		$name = $row[0]['name'];
+		$maincategoryid = $row[0]['mainproductid'];
+
 	}	
 }
 
@@ -157,16 +165,44 @@ else
 							  </div>
 							  							  
 														<!-- Title -->
+
+
+							  <div class="form-group col-lg-12">	
+							 <label class="control-label col-lg-1" for="categoryid">Category ID</label>
+							 <div class="col-lg-10"> 
+							  <select name="mainproductid" class="form-control">
+							  	<option value="0">Select Category Id</option>
+							  		<?php
+							  		foreach($maincatlist as $mainrow)
+							  		{?>
+							  			<option value="<?php echo $mainrow['id'];?>"
+							  				<?php
+							  				if ($mainrow['id']==$maincategoryid)
+							  				{
+							  					echo "Selected";
+							  				}
+							  				else
+							  				{
+							  					echo "";
+							  				}
+							  				?> >
+							  				<?php echo $mainrow['name'];?>
+							  				
+							  			</option>
+							  			<?php
+							  		}
+							  		?>
+							  	</option>
+							  </select>
+							</div>
+						</div>	
+							  <!--IMAGE-->
 							  <div class="form-group col-lg-6">
 								<label class="control-label col-lg-2" for="Name">Name</label>
 								<div class="col-lg-10"> 
 								  <input type="text" class="form-control" name="name" id="name" value="<?php echo $name; ?>">
 								</div>
 							  </div>
-
-							  
-							  <!--IMAGE-->
-
 							  							
 							  <!-- Buttons -->
 							  <div class="form-group">

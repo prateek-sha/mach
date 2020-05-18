@@ -18,7 +18,7 @@
                             <span class="profile-ava">
                                 <img alt="" src="img/avatar1_small.jpg">
                             </span>
-                            <span class="username"><?php echo $username; ?></span>
+                            <span class="username"><?php echo $sessionemail; ?></span>
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu extended logout">

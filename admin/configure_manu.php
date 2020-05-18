@@ -124,6 +124,22 @@
 			exit();
 		}
 	}
+	function getRecordById1($id)
+	{
+		$query = "SELECT * FROM Manufacture where id='".$id."'";
+		
+		$list = $this->query_list($query);				
+		if(count($list) == 0)
+		{
+			return false;
+			exit();
+		}
+		else
+		{
+			return $list;
+			exit();
+		}
+	}
 	  
 	function getData()
 	{

@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-    session_start();
+ob_start();
+$countre = 0;
+if(isset($_SESSION["shopping_cart"])){
+    $countre = count($_SESSION["shopping_cart"]);
+  }
+  ob_flush();
 ?>
 <head>
     <title>WEBSITE</title>
@@ -62,9 +67,11 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active"><a href="index.php" class="nav-link">Home</a></li>
                     <li class="nav-item"><a href="about.php" class="nav-link">About</a></li>
+                    <li class="nav-item"><a href="product-single.php" class="nav-link">Shop</a></li>
                     <li class="nav-item"><a id="myBtn" href="#" class="nav-link">Login</a></li>
+                    <li class="nav-item"><a id="myBtn" href="orderhistory.php" class="nav-link">Orders</a></li>
                     <li class="nav-item"><a href="contact.php" class="nav-link">Contact</a></li>
-                    <li class="nav-item cta cta-colored"><a href="cart.php" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+                    <li class="nav-item cta cta-colored"><a href="cart.php" class="nav-link"><span class="icon-shopping_cart"></span>[<?php echo $countre; ?>]</a></li>
 
                 </ul>
             </div>

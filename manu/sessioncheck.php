@@ -1,14 +1,13 @@
 <?php
 session_start();
-$sitetitle="E-Commerce";
-if(!isset($_SESSION['username']))
+if(!isset($_SESSION['email']))
 {
-	header('Location: index.php');
+	header('Location: ../website/index.php');
 	exit();
 }
 else
 {
-	$username = $_SESSION['username'];
+	$sessionemail = $_SESSION['email'];
 }
 
 ?>
