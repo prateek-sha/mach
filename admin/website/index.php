@@ -4,6 +4,8 @@ require('header.php');
 include("../admin/configure_user.php");
 include("../admin/configure_manu.php");
 include("configure_orders.php");
+include('../admin/configure_finalproduct.php');
+$kraya_final = new FinalProducts();
 $kraya_manu = new Manufacture();
 $kraya_user = new User();
 $kraya_order = new Orders();
@@ -134,7 +136,7 @@ $kraya_order = new Orders();
         </div>
     </section>
 
-    <section class="ftco-section bg-light">
+    <!-- <section class="ftco-section bg-light">
         <div class="container">
             <div class="row justify-content-center mb-3 pb-3">
                 <div class="col-md-12 heading-section text-center ftco-animate">
@@ -169,7 +171,7 @@ $kraya_order = new Orders();
                             </div>
                             <p class="bottom-area d-flex px-3">
                                 <a href="product-single.html" class="add-to-cart text-center py-2 mr-1"><span>View Details <i class="ion-ios-add ml-1"></i></span></a>
-                                <!-- <a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a> -->
+                                 <a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a>
                             </p>
                         </div>
                     </div>
@@ -197,7 +199,7 @@ $kraya_order = new Orders();
                             </div>
                             <p class="bottom-area d-flex px-3">
                                 <a href="#" class="add-to-cart text-center py-2 mr-1"><span>View Details <i class="ion-ios-add ml-1"></i></span></a>
-                                <!-- <a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a> -->
+                                 <a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a>
                             </p>
                         </div>
                     </div>
@@ -225,7 +227,7 @@ $kraya_order = new Orders();
                             </div>
                             <p class="bottom-area d-flex px-3">
                                 <a href="#" class="add-to-cart text-center py-2 mr-1"><span>View Details <i class="ion-ios-add ml-1"></i></span></a>
-                                <!-- <a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a> -->
+                                 <a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a> -
                             </p>
                         </div>
                     </div>
@@ -253,14 +255,14 @@ $kraya_order = new Orders();
                             </div>
                             <p class="bottom-area d-flex px-3">
                                 <a href="#" class="add-to-cart text-center py-2 mr-1"><span>View Details <i class="ion-ios-add ml-1"></i></span></a>
-                                <!-- <a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a> -->
+                                 <a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a> 
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- <section class="ftco-section ftco-choose ftco-no-pb ftco-no-pt">
         <div class="container">
@@ -303,119 +305,36 @@ $kraya_order = new Orders();
         </div>
         <div class="container">
             <div class="row">
+                <?php
+                $prolist = $kraya_final->getDataFour();
+                if ($prolist == false){
+                    $count = 0;
+                }
+                else{
+                    $count = count($prolist);
+                }
+                for($i = 0; $i< $count; $i++){
+                    $im="../admin/upload1/".$prolist[0]['img'];
+                ?>
                 <div class="col-sm col-md-6 col-lg ftco-animate">
                     <div class="product">
-                        <a href="#" class="img-prod"><img class="img-fluid" src="images/indexhome/pic1.jpg" alt="Colorlib Template">
-                            <span class="status">30%</span>
+                        <a href="searchresult.php?id=<?php echo $prolist[$i]['id']?>&product_para=<?php echo $prolist[$i]['product_para'] ?>" class="img-prod"><img class="img-fluid" src="<?php echo $im; ?>" alt="Colorlib Template">
                             <div class="overlay"></div>
                         </a>
                         <div class="text py-3 px-3">
-                            <h3><a href="#">Floral Jackquard Pullover</a></h3>
+                            <h3><?php echo $prolist[$i]['name']; ?></h3>
                             <div class="d-flex">
                                 <div class="pricing">
-                                    <p class="price"><span class="mr-2 price-dc">$120.00</span><span class="price-sale">$80.00</span></p>
-                                </div>
-                                <div class="rating">
-                                    <p class="text-right">
-                                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                                    </p>
+                                    <p class="price"><span class="price-sale"><?php  echo $prolist[$i]['price']; ?></span></p>
                                 </div>
                             </div>
-                            <p class="bottom-area d-flex px-3">
-                                <a href="#" class="add-to-cart text-center py-2 mr-1"><span>View Details <i class="ion-ios-add ml-1"></i></span></a>
-                                <!-- <a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a> -->
-                            </p>
+                           
                         </div>
                     </div>
                 </div>
-                <div class="col-sm col-md-6 col-lg ftco-animate">
-                    <div class="product">
-                        <a href="#" class="img-prod"><img class="img-fluid" src="images/indexhome/pic2.jpg" alt="Colorlib Template">
-                            <div class="overlay"></div>
-                        </a>
-                        <div class="text py-3 px-3">
-                            <h3><a href="#">Floral Jackquard Pullover</a></h3>
-                            <div class="d-flex">
-                                <div class="pricing">
-                                    <p class="price"><span>$120.00</span></p>
-                                </div>
-                                <div class="rating">
-                                    <p class="text-right">
-                                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="bottom-area d-flex px-3">
-                                <a href="#" class="add-to-cart text-center py-2 mr-1"><span>View Details <i class="ion-ios-add ml-1"></i></span></a>
-                                <!-- <a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a> -->
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm col-md-6 col-lg ftco-animate">
-                    <div class="product">
-                        <a href="#" class="img-prod"><img class="img-fluid" src="images/indexhome/pic3.jpg" alt="Colorlib Template">
-                            <div class="overlay"></div>
-                        </a>
-                        <div class="text py-3 px-3">
-                            <h3><a href="#">Floral Jackquard Pullover</a></h3>
-                            <div class="d-flex">
-                                <div class="pricing">
-                                    <p class="price"><span>$120.00</span></p>
-                                </div>
-                                <div class="rating">
-                                    <p class="text-right">
-                                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="bottom-area d-flex px-3">
-                                <a href="#" class="add-to-cart text-center py-2 mr-1"><span>View Details <i class="ion-ios-add ml-1"></i></span></a>
-                                <!-- <a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a> -->
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm col-md-6 col-lg ftco-animate">
-                    <div class="product">
-                        <a href="#" class="img-prod"><img class="img-fluid" src="images/indexhome/pic1.jpg" alt="Colorlib Template">
-                            <div class="overlay"></div>
-                        </a>
-                        <div class="text py-3 px-3">
-                            <h3><a href="#">Floral Jackquard Pullover</a></h3>
-                            <div class="d-flex">
-                                <div class="pricing">
-                                    <p class="price"><span>$120.00</span></p>
-                                </div>
-                                <div class="rating">
-                                    <p class="text-right">
-                                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="bottom-area d-flex px-3">
-                                <a href="#" class="add-to-cart text-center py-2 mr-1"><span>View Details <i class="ion-ios-add ml-1"></i></span></a>
-                                <!-- <a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a> -->
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <?php
+                    }
+                ?>
             </div>
         </div>
     </section>

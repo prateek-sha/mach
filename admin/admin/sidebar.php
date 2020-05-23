@@ -49,6 +49,24 @@
 								</a>
 							</li>
 							<li>
+								<a class="" href="review_list.php">
+									<i class="icon_genius"></i>
+									<span>Reviews</span>
+								</a>
+							</li>
+							<li>
+								<a class="" href="pdf.php">
+									<i class="icon_genius"></i>
+									<span>Upload Pdf</span>
+								</a>
+							</li>
+							<li>
+								<a class="" href="weight_list.php">
+									<i class="icon_genius"></i>
+									<span>Upload Weight</span>
+								</a>
+							</li>
+							<li>
 								<a class="" href="enquiry_list.php">
 									<i class="icon_genius"></i>
 									<span>Enquiry</span>

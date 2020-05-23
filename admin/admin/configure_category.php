@@ -149,7 +149,27 @@
 	  {
 		  $where = "";
 		  		  
-		  $query = "SELECT * from category where active_status='1'";
+		  $query = "SELECT * from category where active_status='1' and status= '1' " ;
+
+		  //echo $query;
+		  
+			$list = $this->query_list($query);				
+			if(count($list) == 0)
+			{
+				return false;
+				exit();
+			}
+			else
+			{
+				return $list;
+				exit();
+			}	
+	  }
+	  function getData2()
+	  {
+		  $where = "";
+		  		  
+		  $query = "SELECT * from category where status='1'";
 
 		  //echo $query;
 		  
@@ -207,9 +227,9 @@
 	  }
 	  function addRecord()
 	  {
-		  $sql="INSERT INTO category(name, mainproductid , active_status) 
+		  $sql="INSERT INTO category(name, mainproductid , active_status, addeddate) 
 		  VALUES 
-		  ('".$this->f($this->name)."','$this->mainproductid' ,'1')";
+		  ('".$this->f($this->name)."','$this->mainproductid' ,'1', '$this->addeddate')";
 
 		$result = mysqli_query($this->con,$sql);
 		if($result)

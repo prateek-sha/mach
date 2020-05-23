@@ -125,8 +125,8 @@ else
 			  <div class="row">
 				<div class="col-lg-12">					
 					<ol class="breadcrumb">
-						<li><i class="fa fa-home"></i><a href="category_list.php">Category List</a></li>
-						<li><i class="fa fa-laptop"></i>Add/Edit Category</li>
+						<li><i class="fa fa-home"></i><a href="category_list.php">Parameter List</a></li>
+						<li><i class="fa fa-laptop"></i>Add/Edit Parameter</li>
 					</ol>
 				</div>
 			</div>

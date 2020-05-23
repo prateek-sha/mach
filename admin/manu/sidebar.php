@@ -18,21 +18,9 @@
 								</a>
 							</li>
 							<li>
-								<a class="" href="news_list.php">
+								<a class="" href="order_list.php">
 									<i class="icon_genius"></i>
-									<span>News</span>
-								</a>
-							</li>
-							<li>
-								<a class="" href="slider_list.php">
-									<i class="icon_genius"></i>
-									<span>Slider</span>
-								</a>
-							</li>
-							<li>
-								<a class="" href="enquiry_list.php">
-									<i class="icon_genius"></i>
-									<span>Enquiry</span>
+									<span>My Orders</span>
 								</a>
 							</li>
 							<li>

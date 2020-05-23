@@ -1,18 +1,17 @@
 <?php
 include 'sessioncheck.php';
 include 'header.php';
-include ('configure_admin.php');
 
-$username="";
+$email="";
 $password="";
 
 if($_SERVER['REQUEST_METHOD']=="POST")
 {		
-	$username = $_POST['username'];
+	$email = $_POST['email'];
 	$password = $_POST['password'];
 	
-	$stream_object = new Admin();
-	$stream_object->username=$_POST['username'];
+	$stream_object = new Manufacture();
+	$stream_object->email=$_POST['email'];
 	$stream_object->password=$_POST['password'];
 
 	$result = $stream_object->updatePassword();
@@ -21,7 +20,7 @@ if($_SERVER['REQUEST_METHOD']=="POST")
 
 	if($result==true)
 	{													
-		$_SESSION['msg']="Admin Password Updated Successfully.";			
+		$_SESSION['msg']="Manufacture Password Updated Successfully.";			
 	}
 	else
 	{
@@ -29,25 +28,7 @@ if($_SERVER['REQUEST_METHOD']=="POST")
 		
 	}		
 }
-else
-{
-	$username = $_SESSION['username'];
 
-	$stream_object = new Admin();
-	$stream_object->username=$username;
-	$row = $stream_object->getRecordById();
-
-	if($row==false)
-	{	
-		$_SESSION['msg']="Error in fetching record";			
-	}
-	
-	//calling connection close function
-	$stream_object->closeconnection();
-	
-	$password = $row[0]['password'];
-	
-}
 
 ?>
 <!-- Bootstrap CSS -->    
@@ -111,6 +92,7 @@ else
                   </div>  
                   <div class="clearfix"></div>
                 </div>
+
                 <div class="panel-body">
                   <div class="padd">
                     
@@ -119,9 +101,9 @@ else
 						  <form class="form-horizontal"  method="POST" >
 							  <!-- Title -->
 							  <div class="form-group">
-								<label class="control-label col-lg-2" for="username">Username</label>
+								<label class="control-label col-lg-2" for="username">Email</label>
 								<div class="col-lg-10"> 
-								  <input type="text" class="form-control" name="username" id="username" readonly value="<?php echo $username; ?>">
+								  <input type="text" class="form-control" name="email" id="email" readonly value="<?php echo $sessionemail; ?>">
 								</div>
 							  </div>
 								

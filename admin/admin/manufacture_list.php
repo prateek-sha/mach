@@ -48,6 +48,12 @@ include ('configure_manudetails.php');
           <section class="wrapper">            
               <!--overview start-->
 
+			  <div class="row">
+				<div class="col-lg-12">					
+					<ol class="breadcrumb">
+						<li><i class="fa fa-home"></i><a href="manufacture_list.php">Order List</a></li>								</ol>
+				</div>
+			</div>
 			
 			
               <!-- project team & activity end -->
@@ -63,13 +69,13 @@ include ('configure_manudetails.php');
 						echo "<span style='color:red;'>". $_SESSION['msg']. "</span>";
 						$_SESSION['msg']='';
 					}	
-				?>
+				    ?>
 					</header>
                  
-					<table class="table table-striped table-advance table-hover" id="dataTables-example">
+				<table class="table table-striped table-advance table-hover" id="dataTables-example">
 					<thead>
 						<tr>
-						<th><i class="icon_profile"></i> ID</th>
+						    <th><i class="icon_profile"></i> ID</th>
 							<th><i class="icon_profile"></i> FirstName</th>
 							<th><i class="icon_profile"></i> LastName</th>
 							<th><i class="icon_profile"></i> Email</th>	
@@ -85,6 +91,7 @@ include ('configure_manudetails.php');
 							<th><i class="icon_profile"></i> FaxNumber</th>
 							<th><i class="icon_profile"></i> Faxemail</th>
 							<th><i class="icon_cogs"></i> Action</th>
+							<th><i class="icon_cogs"></i> Show</th>
 						</tr>
 					</thead>   
 
@@ -106,7 +113,7 @@ include ('configure_manudetails.php');
 						{
 							?>
 							<tr>
-							<td><?php echo $row[$i]['id']; ?></td>
+							    <td><?php echo $row[$i]['id']; ?></td>
 								<td><?php echo $row[$i]['firstname']; ?></td>
 								<td><?php echo $row[$i]['lastname']; ?></td>
 								<td><?php echo $row[$i]['email']; ?></td>
@@ -121,7 +128,6 @@ include ('configure_manudetails.php');
 								<td><?php echo $row[$i]['phonenumber']; ?></td>
 								<td><?php echo $row[$i]['faxnumber']; ?></td>
 								<td><?php echo $row[$i]['faxemail']; ?></td>
-
 								 <td>
 
 								<?php
@@ -136,12 +142,11 @@ include ('configure_manudetails.php');
 								?>
 								</td>
 								<td>
-									<div class="btn-group">				
+									<div class="btn-group">	
+
 									<a class="btn btn-success" href="manufacture.php?id=<?php echo $row[$i]['id'];?>" >Show</a>
-	
 									</div>
 								</td>
-								
 							</tr>
 							<?php		
 								$i++;
@@ -183,16 +188,19 @@ include ('configure_manudetails.php');
     
         
     <!-- custome script for all page -->
+    <!-- custome script for all page -->
     <script src="js/scripts.js"></script>
 	
 <script src="assets/js/dataTables/jquery.dataTables.js"></script>
     <script src="assets/js/dataTables/dataTables.bootstrap.js"></script>
         <script>
+
             $(document).ready(function () {
                 $('#dataTables-example').dataTable(
                 	{
                 		"order": [[ 0, "desc" ]],
-                		 "pageLength": 50
+                		 "pageLength": 50,
+		
                 	});
             });
 
@@ -202,7 +210,7 @@ var res = confirm("Are you Sure ? \n Do you want to delete Record : " + id );
 
 if(res==true)
 {
-window.location="delete_slider.php?id="+id;
+window.location="delete_maincat.php?id="+id;
 }
 }
     </script>

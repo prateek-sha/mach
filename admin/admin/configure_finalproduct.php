@@ -22,6 +22,7 @@
 	  var $cadfile;
 	  var $product_para;
 	  var $con;
+	  var $weight;
 	  
 	function FinalProducts()
 	{
@@ -145,6 +146,26 @@
 				exit();
 			}	
 	  }
+	  function getDataFour()
+	  {
+		  $where = "";
+		  		  
+		  $query = "SELECT * from finalproduct where status=1 && active_status='1' order by id DESC LIMIT 4";
+
+		  //echo $query;
+		  
+			$list = $this->query_list($query);				
+			if(count($list) == 0)
+			{
+				return false;
+				exit();
+			}
+			else
+			{
+				return $list;
+				exit();
+			}	
+	  }
 	     function getProducts($catid)
 	  {
 		$query = "SELECT * FROM finalproduct where status=1 and active_status ='1' and categoryid='".$catid."'";
@@ -181,6 +202,42 @@
 				exit();
 			}	
 	  }
+	  function checkGet($id)
+	  {
+		$query = "SELECT * FROM finalproduct where product_para= '$this->product_para' and status='1' and active_status ='1' and id='".$id."'";
+
+		  // exit($query);
+		  
+			$list = $this->query_list($query);				
+			if(count($list) == 0)
+			{
+				return false;
+				exit();
+			}
+			else
+			{
+				return $list;
+				exit();
+			}	
+	  }
+	  function getWeight1($id)
+	  {
+		$query = "SELECT weight FROM finalproduct where status='1' and active_status ='1' and id='".$id."'";
+
+		  // exit($query);
+		  
+			$list = $this->query_list($query);				
+			if(count($list) == 0)
+			{
+				return false;
+				exit();
+			}
+			else
+			{
+				return $list[0][0];
+				exit();
+			}	
+	  }
 	 
 	  function countData()
 	  {
@@ -201,7 +258,7 @@
 	  }
 	  function addRecord()
 	  {
-		  $sql="INSERT INTO finalproduct (product_para,name,description,price,img,cadfile,addeddate)
+		  $sql="INSERT INTO finalproduct (product_para,name,description,price,img,cadfile,addeddate,weight)
 		VALUES
 		(
 		'$this->product_para',
@@ -210,7 +267,8 @@
         '$this->price',
         '$this->image',
         '$this->cadfile',
-		'$this->addeddate'		
+		'$this->addeddate',
+		'$this->weight'
 		)";
         //exit($sql);
 
@@ -222,7 +280,7 @@
 	  function updateRecord()
 	  {
 		  $sql="update finalproduct set product_para = '$this->product_para', name ='$this->name', description = '$this->description', price='$this->price',
-		   img = '$this->image' , cadfile = '$this->cadfile' ,addeddate ='$this->addeddate'where id = '$this->id' ";
+		   img = '$this->image' , cadfile = '$this->cadfile' ,addeddate ='$this->addeddate' , weight='$this->weight'where id = '$this->id' ";
 
 		$result = mysqli_query($this->con,$sql);
 		if($result)

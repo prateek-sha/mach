@@ -242,6 +242,14 @@
 		if($result)
 			return true;
 	}
+	  function updateQuantity($id, $productpara, $quant)
+	  {
+		  $sql="update productinventry set quantity = quantity - '$quant' where manu_id = '$id' and product_para='$productpara' ";
+
+		$result = mysqli_query($this->con,$sql);
+		if($result)
+			return true;
+	}
 	  
 	  function deleteRecord()
 	  {

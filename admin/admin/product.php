@@ -1,11 +1,12 @@
 <?php
 date_default_timezone_set("Asia/Kolkata");
-
+require_once('sessioncheck.php');
 include ('configure_products.php');
 include ('configure_category.php');
 $cat=new Category();
-$catlist=$cat->getData();
+$catlist=$cat->getData2();
 $cat->closeconnection();	
+
 $page_products="products";
 $name="";
 $categoryid="";
@@ -134,8 +135,8 @@ else
 			  <div class="row">
 				<div class="col-lg-12">					
 					<ol class="breadcrumb">
-						<li><i class="fa fa-home"></i><a href="product_list.php">Product List</a></li>
-						<li><i class="fa fa-laptop"></i>Add/Edit Product</li>						  	
+						<li><i class="fa fa-home"></i><a href="product_list.php">Parameter Value List</a></li>
+						<li><i class="fa fa-laptop"></i>Add/Edit Parameter value</li>						  	
 					</ol>
 				</div>
 			</div>

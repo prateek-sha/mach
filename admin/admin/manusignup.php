@@ -1,6 +1,7 @@
 <?php ob_start(); ?>
 
 <?php
+date_default_timezone_set("Asia/Kolkata");
 include ('configure_manu.php');
 $Manufacture_object = new Manufacture();
 
@@ -13,7 +14,6 @@ if($_SERVER['REQUEST_METHOD']=='POST')
 	&& !empty($_POST["mobilenumber"]) )
 	{
 		
-		$d=mktime(11, 14, 54, 8, 12, 2014);
 		$Manufacture_object->username=$_POST['username'];
 		$Manufacture_object->password=$_POST['password'];
 		$Manufacture_object->email=$_POST['email'];
@@ -30,7 +30,7 @@ if($_SERVER['REQUEST_METHOD']=='POST')
         $Manufacture_object->mobilenumber=$_POST['mobilenumber'];
         $Manufacture_object->faxnumber=$_POST['faxnumber'];
         $Manufacture_object->faxemail=$_POST['faxemail'];
-		$Manufacture_object->createddate=date("Y-m-d h:i:sa", $d);
+		$Manufacture_object->createddate= date("Y-m-d H:i:s");
 
 		$row = $Manufacture_object->EmailCheck();
 		if ($row == FALSE){

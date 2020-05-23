@@ -11,6 +11,8 @@ require_once("./lib/config_paytm.php");
 require_once("./lib/encdec_paytm.php");
 
 include("../configure_checkout.php");
+include("../../manu/configure_myproduct.php");
+$kraya_myproduct = new MyProducts();
 $kraya_checkout = new Checkout();
 
 $kraya_checkout->order_id=$_POST['ORDERID'];
@@ -37,9 +39,19 @@ if($isValidChecksum == "TRUE") {
 			foreach($_SESSION["shopping_cart"] as $keys => $values){
 					unset($_SESSION["shopping_cart"][$keys]);}
 					unset($_SESSION['order']);
+					unset($_SESSION['is_valid']);
 					echo "<b>Transaction status is success</b>" . "<br/>";
 					for($i = 0 ; $i < count($check) ; $i++ )  {
 						$kraya_checkout->updatePayment($check[$i]);
+					}
+					for($i = 0 ; $i < count($check) ; $i++ )  {
+						$row = $kraya_checkout->getRecordByOrderId($check[$i]);
+						if ($row == FALSE){
+							echo "error";
+						}
+						else{
+						$kraya_myproduct->updateQuantity($row[0]['manu_id'], $row[0]['product_para'], $row[0]['productquantity']);
+						}
 					}
 					header("location: ../payment-success.php");
 

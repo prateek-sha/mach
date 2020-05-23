@@ -49,8 +49,8 @@ include ('configure_category.php');
 			  <div class="row">
 				<div class="col-lg-12">					
 					<ol class="breadcrumb">
-						<li><i class="fa fa-home"></i><a href="category_list.php">Category List</a></li>			
-						<li style="float:right;"><i class="fa fa-laptop"></i><a href="category.php" >Add Category</a></li>
+						<li><i class="fa fa-home"></i><a href="category_list.php">Paramter List</a></li>			
+						<li style="float:right;"><i class="fa fa-laptop"></i><a href="category.php" >Add Parameter</a></li>
 					</ol>
 				</div>
 			</div>
@@ -86,7 +86,7 @@ include ('configure_category.php');
 					<tbody>
 						<?php						
 						$inbox_object = new Category();
-						$row = $inbox_object->getData();
+						$row = $inbox_object->getData2();
 						
 						if($row==false)
 						{
@@ -121,7 +121,7 @@ include ('configure_category.php');
 								<td>
 									<div class="btn-group">				
 									<a class="btn btn-success" href="category.php?id=<?php echo $row[$i]['id'];?>" >Edit</a>
-									<!-- <a class="btn btn-success" onclick="deleterecord(<?php echo $row[$i]['id'];?>)" >Delete</a> -->
+									<a class="btn btn-success" onclick="deleterecord(<?php echo $row[$i]['id'];?>)" >Delete</a>
 									</div>
 								</td>
 								

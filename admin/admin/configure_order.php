@@ -18,9 +18,11 @@
 	  var $status;	 
 	  var $con;
 	  var $name;
+	  var $manu_id;
       var $mainproductid;
       var $dispacted;
-      var $delivered;	  
+	  var $delivered;	
+	  var $cadfile;  
 	  
 	function Order()
 	{
@@ -81,6 +83,22 @@
 	function getRecordById()
 	{
 		$query = "SELECT * FROM orders where status=1 and active_status='1' and id='".$this->id."'";
+		
+		$list = $this->query_list($query);				
+		if(count($list) == 0)
+		{
+			return false;
+			exit();
+		}
+		else
+		{
+			return $list;
+			exit();
+		}
+	}
+	function getRecordByManuId()
+	{
+		$query = "SELECT * FROM orders where payment=1 and manu_id='".$this->manu_id."'";
 		
 		$list = $this->query_list($query);				
 		if(count($list) == 0)
@@ -217,11 +235,21 @@
 		if($result)
 			return true;
 	  }
+
 	  
 	  
 	  function updateRecord()
 	  {
 		  $sql="update orders set name='$this->name',mainproductid='$this->mainproductid' ,addeddate='$this->addeddate' where id='$this->id'";
+
+		$result = mysqli_query($this->con,$sql);
+		if($result)
+			return true;
+	}
+	  
+	  function addPdf()
+	  {
+		  $sql="update orders set pdf='$this->cadfile' where id='$this->id'";
 
 		$result = mysqli_query($this->con,$sql);
 		if($result)

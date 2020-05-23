@@ -87,7 +87,7 @@ include ('configure_manu.php');
 							<th><i class="icon_profile"></i> Customer Phone Number</th>
 							<th><i class="icon_profile"></i> Addeddate</th>
 							<th><i class="icon_profile"></i> Dispascted</th>
-							<th><i class="icon_profile"></i> Delivered</th>
+							<th><i class="icon_profile"></i> PDF</th>
 						</tr>
 					</thead>   
 
@@ -138,15 +138,21 @@ include ('configure_manu.php');
 								?>
 								</td>
 
+                   
 								<td>
-								<?php 
-								if($row[$i]['delivered']==1)
+
+                                <?php 
+								if($row[$i]['pdf'] == "hello")
 								{
-									echo "<a href='category_delivered_status_change.php?id=".$row[$i]['id']."&status=0' >ON</a>";
+                                   echo " <a type='button' disabled class='btn btn-success' href=''>Download</a> ";
+
+									//echo "<a href='category_dispacted_status_change.php?id=".$row[$i]['id']."&status=0' >ON</a>";
 								}
 								else
 								{
-									echo "<a href='category_delivered_status_change.php?id=".$row[$i]['id']."&status=1' >OFF</a>";
+									$cad =  "../admin/uploadpdf/".$row[$i]['pdf'];
+
+                                    echo " <a class='btn btn-success' href='".$cad."'>Download</a> ";
 								}
 								?>
 								</td>

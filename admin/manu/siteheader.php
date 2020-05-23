@@ -4,7 +4,7 @@
             </div>
 
             <!--logo start-->
-            <a href="products_list.php" class="logo">Ecommerce <span class="lite"> ADMIN Panel</span></a>
+            <a href="myproduct_list.php" class="logo">Ecommerce <span class="lite"> ADMIN Panel</span></a>
             <!--logo end-->
 
             

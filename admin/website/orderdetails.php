@@ -2,20 +2,30 @@
   include("sessioncheck.php");
   include("header.php");
   include("configure_orders.php");
+  include("../admin/configure_finalproduct.php");
+  $karya_finalproduct = new FinalProducts();
   $karya_order = new Orders();
   $karya_order->id = $_GET['id'];
   $row = $karya_order->getCategoryData($userid);
   if ($row == false){
-      echo "error fetching recoed";
+      echo "error fetching record";
+      header("location: orderhistory.php");
+      exit();
   }
-  
+  $productdetails = $karya_finalproduct->getProducts1($row[0]['product_id']);
+  if ($productdetails == false ){
+      echo "error fetching product.Please contact adminstartor";
+      header("location: orderhistory.php");
+      exit();
+  }
+  $im="../admin/upload1/".$productdetails[0]['img'];
 ?>
 
     <div class="hero-wrap hero-bread" style="background-image: url('images/bg_6.jpg');">
         <div class="container">
             <div class="row no-gutters slider-text align-items-center justify-content-center">
                 <div class="col-md-9 ftco-animate text-center">
-                    <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span class="mr-2"><a href="index.html">Product</a></span> <span>Product Single</span></p>
+                    <p class="breadcrumbs"><span class="mr-2"><a href="index.php">Home</a></span> <span class="mr-2"><a href="index.php">Product</a></span> <span>Product Single</span></p>
                     <h1 class="mb-0 bread">Product Single detail</h1>
                 </div>
             </div>
@@ -28,7 +38,7 @@
                 <div class="col-md-8 col-lg-10 order-md-last">
                     <div class="row">
                         <div class="col-lg-6 mb-5 ftco-animate">
-                            <a href="images/menu-2.jpg" class="image-popup"><img src="./images/indexhome/pic1.jpg" class="img-fluid" alt="Colorlib Template"></a>
+                            <a href="images/menu-2.jpg" class="image-popup"><img src="<?php echo $im; ?>" class="img-fluid" alt="Colorlib Template"></a>
                         </div>
                         <div class="col-lg-6 product-details pl-md-5 ftco-animate">
                             <h3><?php echo $row[0]['productname']?> </h3>
@@ -59,9 +69,10 @@
                                     </p>
                                 </div>
                             </div>
-                            <p class="price"><span>Price - <?php echo $row[0]['productprice'] ?></span></p>
-                            <p class="price"><span>Quantity - <?php echo $row[0]['productquantity']; ?></span></p>
-                            <p class="price"><span>Order Placed On - <?php echo $row[0]['addeddate']; ?></span></p>
+                            <p class=""><span>Price - <?php echo $row[0]['productprice'] ?></span></p>
+                            <p class=""><span>Quantity - <?php echo $row[0]['productquantity']; ?></span></p>
+                            <p class=""><span>Order Placed On - <?php echo $row[0]['addeddate']; ?></span></p>
+                            <p class=""><span>Order Numuber - <?php echo $row[0]['ordernum']; ?></span></p>
                             <?php 
                               if ( $row[0]['dispacted'] == 0){
                                   ?>

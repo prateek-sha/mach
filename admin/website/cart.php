@@ -5,9 +5,11 @@ ob_start();
   include('../admin/configure_category.php');
   include('../admin/configure_products.php');
   include('../admin/configure_finalproduct.php');
+  include('../admin/configure_weight.php');
   $obj_prod=new FinalProducts();
   $product =new Products();
   $cat = new Category();
+  $obj_weight = new Weight();
 if(isset($_POST["add_to_cart"]))
 {
   if(isset($_SESSION["shopping_cart"]))
@@ -123,23 +125,49 @@ ob_flush();
                                         <p><strong>Details Selected</strong></p>
                                         <?php
                                         $product_para = $row[0]['product_para'];
-                                        $split = str_split($product_para, 2);
-                                        $count = count($split);
+                                        $cats = array();
+                                        $cats = explode("T",$product_para);
+                                        for ($i = 0 ; $i< count($cats); $i++){
+                                            $pro = explode("S",$cats[$i]);      
+                                        //$split = str_split($product_para, 2);
+                                       // $count = count($split);
     
-                                        for($j = 0 ; $j < $count ; $j++){
-                                            $i = 0;
-                                            $catname = $cat->getCategory($split[$j][$i]);
-                                            $productname = $product->getProducts1($split[$j][$i + 1]);
+                                        //for($j = 0 ; $j < $count ; $j++){
+                                          //  $i = 0;
+                                            $catname = $cat->getCategory($pro[0]);
+                                            $productname = $product->getProducts1($pro[1]);
 
                                         ?>
                                         <p> <strong><?php echo $catname[0]['name'] ?></strong> - <?php echo $productname[0]['name']; ?></p>
                                         <?php }   ?>
-                                        <?php $cad =  "../admin/upload/".$row[0]['cadfile'] ?>
-                                        <button class=" btn btn-success" style="width: 200px;">
-                                         <span style="color: #fff; ">
-                                          <a href=" <?php echo $cad ?>">  Download CAD File </a>
-                                         </span> 
-                                        </button>
+                                        <div class="btn-group">
+                                            <button type="button" style="color: #20a000; background-color: #20a000;" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span style="color: #20a000;">
+                                                    Download CAD File
+                                                </span>
+                                             </button>
+                                            <div class="dropdown-menu">
+                                                <?php 
+                                                    $files_text = $row[0]['cadfile'];
+									                if($files_text!="")
+									                {
+										                $files_array = explode(',',substr($files_text,0,strlen($files_text)-1));
+										                $ctr=1;
+										                foreach($files_array as $tmp)
+										                {
+											                //$tmp1 = explode('____',$tmp);
+                                                            //echo $ctr . ". " ;
+                                                             $cad =  "../admin/upload/".$tmp;
+                                                ?>
+                                        
+                                                <a class="dropdown-item" href="<?php echo $cad; ?>"><?php echo $tmp;?></a>
+                                                <?php
+                                                    $ctr++;
+                                                        }
+                                                    }
+                                                ?>
+                                            </div>
+                                        </div>
                                     </td>
 
                                     <td class="price "><?php echo $row[0]['price'] ?></td>
@@ -170,13 +198,31 @@ ob_flush();
                             <span><?php echo $all; ?></span>
                         </p>
                         <p class="d-flex ">
+                            <span>GST</span>
+                            <?php  
+                                $gst = $all*.12;
+                            ?>
+                            <span><?php echo $gst?></span>
+                        </p>
+                        <p class="d-flex ">
                             <span>Delivery</span>
-                            <span>Free</span>
+                            <?php
+                            $dev = 0;
+                            foreach($_SESSION["shopping_cart"] as $keys => $values)
+                            {
+                                $dev +=( $values['item_quantity'] * $obj_prod->getWeight1($values['item_id']));
+                            }
+                            $dil = $obj_weight->getPrice($dev);
+                            ?>
+                            <span><?php echo $dil;  ?></span>
                         </p>
                         <hr>
                         <p class="d-flex total-price ">
                             <span>Total</span>
-                            <span><?php echo $all; ?></span>
+                            <?php
+                            $totall = ( $all + $dil + $gst );
+                            ?>
+                            <span><?php echo $totall;  ?></span>
                         </p>
                     </div>
                     <p class="text-center "><a href="checkout.php " class="btn btn-primary py-3 px-4 ">Proceed to Checkout</a></p>

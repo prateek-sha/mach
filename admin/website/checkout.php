@@ -8,6 +8,8 @@ ob_start();
   include('../admin/configure_findmanu.php');
   include('../admin/configure_finalproduct.php');
   include("configure_review.php");
+  include('../admin/configure_weight.php');
+  $obj_weight= new weight();
   $kraya_review = new Review();
   $kraya_finalproduct = new FinalProducts();
   $kraya_checkout = new Checkout();
@@ -103,7 +105,7 @@ ob_start();
                     $kraya_checkout->product_id = $values["item_id"];
                     $kraya_checkout->manu_id=$id;
                     $kraya_checkout->user_id= $userid;
-                    $dattee = "MEC".date("Y-m-d")."-".$id."-".$perorder;
+                    $dattee = "MEC".date("Y-m-d")."-".$values['item_id']."-".$id."-".$perorder;
                     $kraya_checkout->ordernum=$dattee;
                     $kraya_checkout->productprice=$values["item_price"];
                     $kraya_checkout->productname=$values["item_name"];
@@ -119,8 +121,9 @@ ob_start();
             
             
             }
-            //echo $_SESSION['order'] = implode("T",$ord);
-            //header("location: finalcheckout.php");
+            $_SESSION['is_valid'] = 'true';
+            $_SESSION['order'] = implode("T",$ord);
+            header("location: finalcheckout.php");
         }
     }   
   }
@@ -213,11 +216,18 @@ ob_flush();
                         if(!empty($_SESSION["shopping_cart"]))
                         {
                                 $all = 0;
+                                $dev = 0;
                                 foreach($_SESSION["shopping_cart"] as $keys => $values)
                                 {
                                     $all += ($values["item_quantity"] * $values["item_price"] ); 
+                                    $dev +=( $values['item_quantity'] * $kraya_finalproduct->getWeight1($values['item_id']));
                                 }
+                                $dil = $obj_weight->getPrice($dev);
+                                $gst = $all*.12;   
+                                $totall = ( $all + $dil + $gst );   
                         }
+
+                        
                     ?>
                     <div class=" row justify-content-center">
                         <div class="col-md-6 d-flex">
@@ -228,13 +238,17 @@ ob_flush();
                                     <span><?php echo $all; ?></span>
                                 </p>
                                 <p class="d-flex">
+                                    <span>GST</span>
+                                    <span><?php echo $gst; ?></span>
+                                </p>
+                                <p class="d-flex">
                                     <span>Delivery</span>
-                                    <span>Free</span>
+                                    <span><?php echo $dil; ?></span>
                                 </p>
                                 <hr>
                                 <p class="d-flex total-price">
                                     <span>Total</span>
-                                    <span><?php echo $all; ?></span>
+                                    <span><?php echo $totall; ?></span>
                                 </p>
                                 <button class="btn btn-primary py-3 px-4" type="submit" > Place your order</button>
                             </div>

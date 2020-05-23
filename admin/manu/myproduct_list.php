@@ -2,8 +2,8 @@
 <?php
 include 'sessioncheck.php';
 include 'header.php';
+require_once ("../admin/configure_manu.php");
 include ('configure_myproduct.php');
-include ('../admin/configure_manu.php');
 include ('../admin/configure_finalproduct.php');
 
 $manu = new Manufacture();
@@ -113,11 +113,11 @@ if ($manu->EmailCheck()){
                             $row1 = $karya_product->getRecordById();
 
                             if($row1 == FALSE){
-                                echo "error";
-                                header('location: myproduct_list.php');
-                            }
-                           
-
+								//echo "error";
+								$_SESSION['msg'] = "No product Found";
+                                //header('location: myproduct_list.php');
+							}
+							else{
 							?>
 							<tr>
 								<td><?php echo $row1[0]['name']; ?></td>
@@ -132,7 +132,7 @@ if ($manu->EmailCheck()){
 								
 							</tr>
                             <?php	
-                    
+							}
 								$i++;
 						}
 			

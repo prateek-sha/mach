@@ -142,7 +142,7 @@
 
 	function getRecordForDate($manu_id, $product_para)
 	{
-		$query = "SELECT * FROM orders where manu_id='$manu_id' and product_para = '$product_para' ";
+		$query = "SELECT * FROM orders where manu_id='$manu_id' and product_para = '$product_para'  ";
 		//echo $query;
 		$list = $this->query_list($query);				
 		if(count($list) == 0)

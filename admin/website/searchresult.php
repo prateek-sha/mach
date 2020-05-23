@@ -1,6 +1,7 @@
 <?php
 ob_start();
 session_start();
+
 require('header.php');
 include ('../admin/configure_products.php');
 include ('../admin/configure_category.php');
@@ -27,13 +28,17 @@ include ('../admin/configure_category.php');
                 <div class="col-md-4 col-lg-2 sidebar">
                     <?php
                          $product_para = $_GET['product_para'];
-                         $split = str_split($product_para, 2);
-                         $count = count($split);
+                        // $split = str_split($product_para, 2);
+                         //$count = count($split);
 
-                         for($j = 0 ; $j < $count ; $j++){
-                             $i = 0;
-                             $catname = $cat->getCategory($split[$j][$i]);
-                             $productname = $product->getProducts1($split[$j][$i + 1]);
+                         //for($j = 0 ; $j < $count ; $j++){
+                           //  $i = 0;
+                           $cats = array();
+                           $cats = explode("T",$product_para);
+                           for ($i = 0 ; $i< count($cats); $i++){
+                               $pro = explode("S",$cats[$i]);  
+                             $catname = $cat->getCategory($pro[0]);
+                             $productname = $product->getProducts1($pro[1]);
                          
                      ?>
                     <div class="sidebar-box-2">
@@ -54,7 +59,10 @@ include('../admin/configure_finalproduct.php');
 include('../admin/configure_findmanu.php');
 $obj_prod=new FinalProducts();
 $kraya_findmanu = new Findmanu();
-    $obj_prod->product_para=$_GET['product_para'];
+$obj_prod->product_para=$_GET['product_para'];
+if ($obj_prod->checkGet($_GET['id']) == false){
+    header("location: search.php");
+}
     $id = $_GET['product_para'];
     $row = $obj_prod->getRecordById();
     if ($row==false) {
@@ -85,15 +93,53 @@ $kraya_findmanu = new Findmanu();
                             <div class="row mt-4">
 							<div class="w-100"></div>
 							<div class="input-group col-md-6 d-flex mb-3">
-	
-	             	<input type="number" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="<?php echo $kraya_findmanu->getMaxQuant($id) ?>">
+                    <?php
+                     if ($kraya_findmanu->getMaxQuant($id) == 0){
+
+                     ?>
+	             	<input type="number" id="quantity" name="quantity" class="form-control input-number" value="0" min="0" max="0">
+                            <?php
+                            }
+                            else{
+
+                                ?>
+                    <input type="number" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="<?php echo $kraya_findmanu->getMaxQuant($id) ?>">
+
+                           <?php } ?>
 
 	          	</div>
 	          	<div class="w-100"></div>
           	</div>
-                            <?php $cad =  "../admin/upload/".$row[0]['cadfile'] ?>
                             <p><input type="submit" name="add_to_cart" class="btn btn-black py-3 px-5" value="Add to Cart"></p>
-                            <p><a href=" <?php echo $cad ?>" class="btn btn-success py-3 px-5">Download CAD File</a></p>
+                            <div class="btn-group">
+                                <button type="button" style="color: #20a000; background-color: #20a000;" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                   <span style="color: #20a000;">
+                                    Download CAD File
+                                   </span>
+                                </button>
+                                <div class="dropdown-menu">
+                                <?php 
+                                $files_text = $row[0]['cadfile'];
+									if($files_text!="")
+									{
+										$files_array = explode(',',substr($files_text,0,strlen($files_text)-1));
+										$ctr=1;
+										foreach($files_array as $tmp)
+										{
+											//$tmp1 = explode('____',$tmp);
+                                            //echo $ctr . ". " ;
+                                             $cad =  "../admin/upload/".$tmp;
+                                            ?>
+                                        
+                                             <a class="dropdown-item" href="<?php echo $cad; ?>"><?php echo $tmp;?></a>
+                                            <?php
+                                            $ctr++;
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+
 
                         </div>
                     </div>

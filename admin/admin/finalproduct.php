@@ -16,6 +16,7 @@ $cadfile="";
 $price="";
 $product_para="";
 $addeddate="";
+$weight="";
 $id=0;
 
 if($_SERVER['REQUEST_METHOD']=="POST")
@@ -56,38 +57,39 @@ else
 }
 
 
-if(isset($_POST['cadfile']))
-{
-	$cadfile=$_POST['cadfile'];
+// if(isset($_POST['cadfile']))
+// {
+// 	$cadfile=$_POST['cadfile'];
 		
-	if($_FILES['cadfile']['name']!="")
-	{
-		include("cad_file.php");
+// 	if($_FILES['cadfile']['name']!="")
+// 	{
+// 		include("cad_file.php");
 		
-		$file = $_SERVER['DOCUMENT_ROOT'] . "/mech/admin/upload/" . $_POST['cadfile'];		
-		if (!unlink($file))
-		{
-			echo ("Error deleting $file");
-		}
-	}
+// 		$file = $_SERVER['DOCUMENT_ROOT'] . "/mech/admin/upload/" . $_POST['cadfile'];		
+// 		if (!unlink($file))
+// 		{
+// 			echo ("Error deleting $file");
+// 		}
+// 	}
 	
-}
+// }
 
-else
-{
-	if($_FILES['cadfile']['name']=="")
-	{
-		$_SESSION['msg'] = "Please attach a file and try again to insert crop";
-		header("Location: finalproduct_list.php");
-		exit();
-	}
-	else
-	{
-		include("cad_file.php");
-	}
-}
+// else
+// {
+// 	if($_FILES['cadfile']['name']=="")
+// 	{
+// 		$_SESSION['msg'] = "Please attach a file and try again to insert crop";
+// 		header("Location: finalproduct_list.php");
+// 		exit();
+// 	}
+// 	else
+// 	{
+// 		include("cad_file.php");
+// 	}
+// }
 
 
+include("cad_file.php");
 //adding all parts variable into one
 $product_paras = array();
 $row = $cat->getData();
@@ -113,7 +115,7 @@ while($i<$count)
 //Creating Object of Userrole Class
 $karya_object = new FinalProducts();
 //Adding Data into Object
-$karya_object->product_para = implode("", $product_paras);
+$karya_object->product_para = implode("T", $product_paras);
 $karya_object->name = $_POST['name'];
 $karya_object->description = $_POST['description'];
 $karya_object->image = $attachment;
@@ -121,6 +123,7 @@ $karya_object->cadfile = $cadfile;
 $karya_object->id=$_POST['id'];
 $karya_object->price = $_POST['price'];
 $karya_object->addeddate = date("Y-m-d H:i:s");
+$karya_object->weight = $_POST['weight'];
 
 if($id==0)
 {	
@@ -184,6 +187,7 @@ else
 		$minprice = $row[0]['price'];
 		$addeddate = $row[0]['addeddate'];
 		$product_para=$row[0]['product_para'];
+		$weight = $row[0]['weight'];
 
 	}
 }
@@ -220,7 +224,7 @@ else
 			  <div class="row">
 				<div class="col-lg-12">					
 					<ol class="breadcrumb">
-						<li><i class="fa fa-home"></i><a href="products_list.php">Product List</a></li>
+						<li><i class="fa fa-home"></i><a href="finalproduct_list.php">Product List</a></li>
 						<li><i class="fa fa-laptop"></i>Add/Edit Product</li>						  	
 					</ol>
 				</div>
@@ -297,7 +301,7 @@ else
                                     while($j<$productcount)
                                     {
                                      ?>        
-                            <option value="<?php echo $row[$i]['id']; echo$product[$j]['id'] ?>" > <?php  echo $product[$j]['name'] ?> </option>
+                            <option value="<?php echo $row[$i]['id'];echo "S";echo$product[$j]['id'] ?>" > <?php  echo $product[$j]['name'] ?> </option>
                             <?php $j++;} ?>
 							  </select>
                             </div>
@@ -323,6 +327,15 @@ else
 								  <input type="text" class="form-control" name="description" id="description" value="<?php echo $description; ?>">
 								</div>
 							  </div>
+							  <div class="form-group col-lg-12" >
+								<label class="control-label col-lg-1" for="id">Weight</label>
+								<div class="col-lg-10"> 
+
+								  <input type="number" class="form-control" name="weight" id="weight" value="<?php echo $weight; ?>">
+								</div>
+							  </div>
+
+
 								<div class="form-group">
 
 								<label class="control-label col-lg-1" for="image">Image</label>
@@ -361,7 +374,7 @@ else
 							  <div class="form-group col-lg-6">
 								<label class="control-label col-lg-2" for="title">Cad FIle</label>
 								<div class="col-lg-10"> 
-								  <input type="file" class="form-control" name="cadfile" id="cadfile" value="<?php echo $cadfile; ?>">
+									<input type="file" class="form-control" name="files[]" id="files" multiple >
 								</div>
 							  </div>
 

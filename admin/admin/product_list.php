@@ -55,8 +55,8 @@ $karya_object = new Products();
 			  <div class="row">
 				<div class="col-lg-12">					
 					<ol class="breadcrumb">
-						<li><i class="fa fa-home"></i><a href="product_list.php">Products List</a></li>						
-						<li style="float:right;"><i class="fa fa-laptop"></i><a href="product.php">Add New Product</a></li>
+						<li><i class="fa fa-home"></i><a href="product_list.php">Parameter  Value List</a></li>						
+						<li style="float:right;"><i class="fa fa-laptop"></i><a href="product.php">Add New Parameter Value</a></li>
 					</ol>
 				</div>
 			</div>

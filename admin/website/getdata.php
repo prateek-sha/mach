@@ -51,20 +51,70 @@ if(!empty($_GET['q']))
                             </div>
                             <p class="price"><span><?php echo $row[0]['price'] ?></span></p>
                             <input type="hidden" name="hidden_price" value="<?php echo $row[0]['price'];   ?>">
+                            <p type="button" style="color: #fff" class="collapsible btn btn-black py-1 px-5">
+                                <span style="font-size: 30px;"> 
+                                Check Price
+                            </span>
+                            </p>
+                            <div class="content">
+                                <p style="color: #000; font-size: medium;">
+                                    120 + 80 (With GST) + 100 (Delivery charge) = Rs.380
+
+                                </p>
+                            </div>
+        
                             <p><?php echo $row[0]['description']  ?>
                             </p>
                             <div class="row mt-4">
 							<div class="w-100"></div>
 							<div class="input-group col-md-6 d-flex mb-3">
 	
-	             	<input type="number" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="<?php echo $kraya_findmanu->getMaxQuant($id) ?>">
+                            <?php
+                     if ($kraya_findmanu->getMaxQuant($id) == 0){
 
+                     ?>
+	             	<input type="number" id="quantity" name="quantity" class="form-control input-number" value="0" min="0" max="0">
+                            <?php
+                            }
+                            else{
+
+                                ?>
+                    <input type="number" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="<?php echo $kraya_findmanu->getMaxQuant($id) ?>">
+
+                           <?php } ?>
 	          	</div>
 	          	<div class="w-100"></div>
           	</div>
-                            <?php $cad =  "../admin/upload/".$row[0]['cadfile'] ?>
+                            
                             <p><input type="submit" name="add_to_cart" class="btn btn-black py-3 px-5" value="Add to Cart"></p>
-                            <p><a href=" <?php echo $cad ?>" class="btn btn-success py-3 px-5">Download CAD File</a></p>
+                            <div class="btn-group">
+                                <button type="button" style="color: #20a000; background-color: #20a000;" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                   <span style="color: #20a000;">
+                                    Download CAD File
+                                   </span>
+                                </button>
+                                <div class="dropdown-menu">
+                                <?php 
+                                $files_text = $row[0]['cadfile'];
+									if($files_text!="")
+									{
+										$files_array = explode(',',substr($files_text,0,strlen($files_text)-1));
+										$ctr=1;
+										foreach($files_array as $tmp)
+										{
+											//$tmp1 = explode('____',$tmp);
+                                            //echo $ctr . ". " ;
+                                             $cad =  "../admin/upload/".$tmp;
+                                            ?>
+                                        
+                                             <a class="dropdown-item" href="<?php echo $cad; ?>"><?php echo $tmp;?></a>
+                                            <?php
+                                            $ctr++;
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                            </div>
 
                         </div>
                     </div>

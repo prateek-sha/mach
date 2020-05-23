@@ -1,8 +1,10 @@
 
 <?php
+ob_start();
 include 'sessioncheck.php';
 include 'header.php';
 include ('../admin/configure_finalproduct.php');
+ob_flush();
 ?>
 
 <!-- Bootstrap CSS -->    

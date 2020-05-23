@@ -23,7 +23,7 @@ else
 	{
 		$_SESSION['msg'] = "products id: " . $_GET['id'] . " status changed to OFF" ;
 	}
-	header ('Location: products_list.php');
+	header ('Location: product_list.php');
 }
 ?>
 <?php ob_flush(); ?>

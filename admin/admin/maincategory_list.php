@@ -121,7 +121,7 @@ include ('configure_maincategory.php');
 								<td>
 									<div class="btn-group">				
 									<a class="btn btn-success" href="maincategory.php?id=<?php echo $row[$i]['id'];?>" >Edit</a>
-									<!-- <a class="btn btn-success" onclick="deleterecord(<?php echo $row[$i]['id'];?>)" >Delete</a> -->
+									<a class="btn btn-success" onclick="deleterecord(<?php echo $row[$i]['id'];?>)" >Delete</a>
 									</div>
 								</td>
 								
@@ -186,7 +186,7 @@ var res = confirm("Are you Sure ? \n Do you want to delete Record : " + id );
 
 if(res==true)
 {
-window.location="delete_category.php?id="+id;
+window.location="delete_maincat.php?id="+id;
 }
 }
     </script>

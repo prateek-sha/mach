@@ -8,7 +8,7 @@ $id=$_GET['id'];
 //Creating Object of Userrole Class
 $karya_object = new Products();
 
-//Adding Data into Object
+//Adding Data into Objecta
 $karya_object->addeddate = date("Y-m-d H:i:s");
 $karya_object->id=$_GET['id'];
 		
@@ -18,7 +18,7 @@ $_SESSION['msg'] = "1 Product record Deleted";
 //calling connection close function
 $karya_object->closeconnection();	
 
-header("Location: products_list.php");
+header("Location: product_list.php");
 exit();
 
 ?>

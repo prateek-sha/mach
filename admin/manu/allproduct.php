@@ -3,7 +3,7 @@ date_default_timezone_set("Asia/Kolkata");
 
 include('sessioncheck.php');
 include ('../admin/configure_products.php');
-include ('../admin/configure_manu.php');
+require_once ('../admin/configure_manu.php');
 include ('../admin/configure_category.php');
 include ('../admin/configure_finalproduct.php');
 include ('configure_myproduct.php');
@@ -143,7 +143,7 @@ exit();
 								</div>
 							  </div>
                                 <?php
-                                $allproduct->id = $id;
+                                    $allproduct->id = $id;
                                     $row = $allproduct->getRecordById1();
                                     if($row==false)
                                     {
@@ -151,13 +151,17 @@ exit();
                                         header('location: allproduct_list.php');
                                     }
                                     $product_para = $row[0]['product_para'];
-                                    $split = str_split($product_para, 2);
-                                    $count = count($split);
+                                    $cats = array();
+                                    $cats = explode("T",$product_para);
+                                    for ($i = 0 ; $i< count($cats); $i++){
+                                        $pro = explode("S",$cats[$i]);                                  
+                                    //$split = str_split($product_para, 2);
+                                    //$count = count($split);
 
-                                    for($j = 0 ; $j < $count ; $j++){
-                                        $i = 0;
-                                        $catname = $cat->getCategory($split[$j][$i]);
-                                        $productname = $product->getProducts1($split[$j][$i + 1]);
+                                    //for($j = 0 ; $j < $count ; $j++){
+                                        //$i = 0;
+                                        $catname = $cat->getCategory($pro[0]);
+                                        $productname = $product->getProducts1($pro[1]);
                                     
                                 ?>
                                 		  <div class="form-group">

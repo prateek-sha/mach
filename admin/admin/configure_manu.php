@@ -206,6 +206,7 @@
 
 	  }
 	  
+
 	  function updateRecord()
 	  {
 		  $sql="update Manufacture set 
@@ -224,13 +225,15 @@
 		  $sql="update Manufacture set 		
 		password ='$this->password'
 		where 
-		username = '$this->username' ";
+		email = '$this->email' ";
 
 		$result = mysqli_query($this->con,$sql);
 		if($result)
 			return true;
 	}
 	  
+	
+
 	  function deleteRecord()
 	  {
 		  $result = mysqli_query($this->con,"update Manufacture set status=0 where id='".$this->id."'");

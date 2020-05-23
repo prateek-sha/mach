@@ -42,6 +42,7 @@ $kraya_finalproduct = new FinalProducts();
                                $orderlistcount = count($orderlist);
                            }
                            for($j = 0; $j <  $orderlistcount ; $j++){
+                               
                             $im="../admin/upload1/".$orderlist[$j]['img'];
                            
 

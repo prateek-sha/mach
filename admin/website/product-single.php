@@ -29,6 +29,7 @@ ob_flush();
 
                 <div class="col-md-4 col-lg-2 sidebar">
                 <?php
+
                           $row = $cat->getData();
                           if($row==false)
 						{
@@ -61,7 +62,7 @@ ob_flush();
                             while($j<$productcount)
                             {
                         ?>        
-                            <option value="<?php echo $row[$i]['id']; echo$product[$j]['id'] ?>" ><?php  echo $product[$j]['name'] ?></option>
+                            <option value="<?php echo $row[$i]['id'];echo "S";echo$product[$j]['id'] ?>" ><?php  echo $product[$j]['name'] ?></option>
                             <?php $j++;} ?>
                             </select>
 
@@ -155,18 +156,35 @@ require('footer.php');
             }
         }
     </script>
+                    <script>
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
 
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                } else {
+                    content.style.display = "block";
+                }
+            });
+        }
+    </script>
 
     <script>
         //code for select parameter
         var buttoun = document.getElementById("btnn");
         buttoun.onclick = function(){
         var selectmenus = document.querySelectorAll('#part');
-        var part = '';
+        var part = new Array();
+        var i = 0;
         selectmenus.forEach(option => {
-                part = part + option.options[option.selectedIndex].value; 
-                
+                part[i] = option.options[option.selectedIndex].value;
+                i = i +1; 
         });
+        var partt = part.join("T");
         
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
@@ -174,9 +192,9 @@ require('footer.php');
                 document.getElementById("txtHint").innerHTML = this.responseText;
             }
         };
-        xmlhttp.open("GET", "getdata.php?q=" + part, true);
+        xmlhttp.open("GET", "getdata.php?q=" + partt, true);
         xmlhttp.send();
-        console.log(part);
+        //console.log(partt);
         }
 
 

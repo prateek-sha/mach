@@ -110,6 +110,22 @@
 			exit();
 		}
 	}
+	function getRecordByOrderId($order)
+	{
+		$query = "SELECT * FROM orders where payment='1' and  ordernum='$order' ";
+		
+		$list = $this->query_list($query);				
+		if(count($list) == 0)
+		{
+			return false;
+			exit();
+		}
+		else
+		{
+			return $list;
+			exit();
+		}
+	}
 	
 	  function getCategory($catid)
 	  {

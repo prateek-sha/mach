@@ -49,7 +49,7 @@ include ('configure_finalproduct.php');
 			  <div class="row">
 				<div class="col-lg-12">					
 					<ol class="breadcrumb">
-						<li><i class="fa fa-home"></i><a href="product_list.php">Products List</a></li>						
+						<li><i class="fa fa-home"></i><a href="finalproduct_list.php">Products List</a></li>						
 						<li style="float:right;"><i class="fa fa-laptop"></i><a href="finalproduct.php">Add New Product</a></li>
 					</ol>
 				</div>
