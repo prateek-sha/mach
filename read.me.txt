@@ -1,3 +1,0 @@
-1. Give permission to disk for deleting(unlinking file ) on final product not working 
-2.Add parent catid to products. ( today )
-3.Have to make manufacture panel .(planning today)
